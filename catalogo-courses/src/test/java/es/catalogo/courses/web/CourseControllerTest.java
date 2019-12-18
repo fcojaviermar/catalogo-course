@@ -58,7 +58,7 @@ public class CourseControllerTest {
 		when(courseService.findAll(0, 5, true)).thenReturn(pagedTasks);
 		ResponseEntity<Page<CourseDTO>> result = courseController.findAll(0, 5, true);
 		
-		result.getBody().forEach(p -> assertTrue(listResult.contains(p)) );
+		assertTrue(result.getBody().getContent().containsAll(listResult));
 	}
 	
 	
@@ -68,7 +68,7 @@ public class CourseControllerTest {
 																									 HttpStatus.NO_CONTENT));
 		ResponseEntity<Page<CourseDTO>> result = courseController.findAll(null, null, true);
 		
-		//BAD_REQUEST
+		assertEquals(result.getStatusCode(), HttpStatus.NO_CONTENT);
 		assertTrue(result.getBody().getContent().size() == 0);
 	}
 }
