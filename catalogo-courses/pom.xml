@@ -8,14 +8,23 @@
 		<version>2.2.2.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>es.catalogo</groupId>
-	<artifactId>catalogo-course</artifactId>
+	<groupId>es.catalog</groupId>
+	<artifactId>catalog-course</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>catalog-courses-1</name>
+	<name>catalog-courses</name>
 	<description>Catalogue of courses</description>
 
 	<properties>
-		<java.version>13</java.version>
+		<java.version>1.8</java.version>
+		
+		<jacoco.version>0.7.6.201602180812</jacoco.version>
+		<jacoco.outputDir>${project.build.directory}</jacoco.outputDir>
+
+		<jacoco.utreportpath>${	project.build.directory}/jacoco</jacoco.utreportpath>
+		<jacoco.utreportfile>${jacoco.utreportpath}/jacoco.exec</jacoco.utreportfile>
+
+		<jacoco.itreportpath>${project.build.directory}/jacoco</jacoco.itreportpath>
+		<jacoco.itreportfile>${jacoco.itreportpath}/jacoco-it.exec</jacoco.itreportfile>		
 	</properties>
 
 	<dependencies>
@@ -27,18 +36,39 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/javax.ws.rs/javax.ws.rs-api -->
+		<dependency>
+		    <groupId>javax.ws.rs</groupId>
+		    <artifactId>javax.ws.rs-api</artifactId>
+		    <version>2.0</version>
+		</dependency>
+				
+
+		<!-- https://mvnrepository.com/artifact/com.h2database/h2 -->
+		<dependency>
+		    <groupId>com.h2database</groupId>
+		    <artifactId>h2</artifactId>
+<!-- 		    <scope>test</scope>-->
+		</dependency>		
+
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
-			<exclusions>
-				<exclusion>
-					<groupId>org.junit.vintage</groupId>
-					<artifactId>junit-vintage-engine</artifactId>
-				</exclusion>
-			</exclusions>
 		</dependency>
+	    <dependency>
+		    <groupId>org.apache.maven.plugins</groupId>
+	      	<artifactId>maven-failsafe-plugin</artifactId>
+	      	<version>3.0.0-M4</version>
+	      	<type>maven-plugin</type>
+	      	<scope>test</scope>
+	    </dependency>		
 	</dependencies>
 
 	<build>
@@ -47,6 +77,79 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+			
+							<plugin>
+								<groupId>org.jacoco</groupId>
+								<artifactId>jacoco-maven-plugin</artifactId>
+								<version>${jacoco.version}</version>
+								<executions>
+										<execution>
+												<id>pre-unit-test</id>
+												<phase>process-test-classes</phase>
+												<goals>
+														<goal>prepare-agent</goal>
+												</goals>
+												<configuration>
+														<propertyName>surefireArgLine</propertyName>
+														<destFile>${jacoco.utreportfile}</destFile>
+														<append>true</append>
+												</configuration>
+										</execution>
+										<execution>
+												<id>post-unit-test</id>
+												<phase>test</phase>
+												<goals>
+														<goal>report</goal>
+												</goals>
+												<configuration>
+														<outputDirectory>${jacoco.utreportpath}</outputDirectory>
+														<dataFile>${jacoco.utreportfile}</dataFile>
+												</configuration>
+										</execution>
+										<execution>
+												<id>pre-integration-test</id>
+												<phase>pre-integration-test</phase>
+												<goals>
+														<goal>prepare-agent-integration</goal>
+												</goals>
+												<configuration>
+														<propertyName>failsafeArgLine</propertyName>
+														<destFile>${jacoco.itreportfile}</destFile>
+														<append>true</append>
+												</configuration>
+										</execution>
+										<execution>
+												<id>post-integration-test</id>
+												<phase>post-integration-test</phase>
+												<goals>
+														<goal>report</goal>
+												</goals>
+												<configuration>
+														<outputDirectory>${jacoco.itreportpath}</outputDirectory>
+														<dataFile>${jacoco.itreportfile}</dataFile>
+												</configuration>
+										</execution>
+								</executions>
+						</plugin>
+						
+						<plugin>
+								<groupId>org.apache.maven.plugins</groupId>
+								<artifactId>maven-failsafe-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>integration-tests</id>
+						<goals>
+							<goal>integration-test</goal>
+							<goal>verify</goal>
+						</goals>
+						<configuration>
+							<argLine>${failsafeArgLine}</argLine>
+													<reportsDirectory>${project.build.directory}/failsafe-reports</reportsDirectory>
+													<skipTests>false</skipTests>
+						</configuration>
+					</execution>
+				</executions>
+						</plugin>						
 		</plugins>
 	</build>
 
