@@ -1,0 +1,3 @@
+DELETE FROM course;
+COMMIT;
+	

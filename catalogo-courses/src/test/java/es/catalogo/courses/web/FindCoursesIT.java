@@ -80,6 +80,7 @@ public class FindCoursesIT {
 	}
 	
 	@Test
+	@Sql("/delete.sql")
 	public void shouldFindZeroElements() {
 		ResponseEntity<Page<CourseDTO>> result = courseController.findAll(null, null, true);
 		
