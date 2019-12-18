@@ -19,4 +19,4 @@ after_success:
 jdk: openjdk12
 
 script:
-  - "mvn test install"
+  - "mvn test install -f catalogo-course/pom.xml"
