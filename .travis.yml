@@ -1,5 +1,4 @@
 language: java
-
 sudo: false
  
 cache:
@@ -21,9 +20,3 @@ jdk: openjdk12
 
 script:
   - "mvn test install"
-
-
-
-
-
-
