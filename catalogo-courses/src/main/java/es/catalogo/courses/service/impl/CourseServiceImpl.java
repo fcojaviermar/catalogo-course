@@ -1,6 +1,5 @@
 package es.catalogo.courses.service.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -14,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import es.catalogo.courses.entity.Course;
+import es.catalogo.courses.exception.NoContentException;
 import es.catalogo.courses.repository.CourseRepository;
 import es.catalogo.courses.service.CourseService;
 import es.catalogo.courses.web.dto.CourseDTO;
@@ -45,7 +45,7 @@ public class CourseServiceImpl implements CourseService {
 
 	
 	
-	public ResponseEntity<Page<CourseDTO>> findAll(Integer page, Integer size, Boolean active) {
+	public ResponseEntity<Page<CourseDTO>> findAll(Integer page, Integer size, Boolean active) throws NoContentException {
 		List<CourseDTO> result = null;
 		Page<Course> listCourses = null;
 		
@@ -59,9 +59,7 @@ public class CourseServiceImpl implements CourseService {
 	
 		
 		if (listCourses.isEmpty()) {
-			return new ResponseEntity<Page<CourseDTO>>(new PageImpl<CourseDTO>(new ArrayList<CourseDTO>(), 
-																			   listCourses.getPageable(), listCourses.getTotalElements()),
-					   								   HttpStatus.NO_CONTENT);			
+			throw new NoContentException("There is no courses.");
 		
 		} else {
 			result = listCourses.stream().map(course -> new CourseDTO(course)).collect(Collectors.toList());

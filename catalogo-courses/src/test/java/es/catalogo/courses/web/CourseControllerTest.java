@@ -2,6 +2,7 @@ package es.catalogo.courses.web;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
@@ -17,6 +18,8 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import es.catalogo.courses.enums.Level;
+import es.catalogo.courses.exception.NoContentException;
 import es.catalogo.courses.service.CourseService;
 import es.catalogo.courses.web.dto.CourseDTO;
 
@@ -34,8 +37,8 @@ public class CourseControllerTest {
 	
 	@Test
 	public void shouldCreateCourse() {
-		CourseDTO input = new CourseDTO(false, 1, "Micro", 40, 3);
-		ResponseEntity<CourseDTO> expectedResult = new ResponseEntity<CourseDTO>(new CourseDTO(true, 2, "Servicio", 40, 2),
+		CourseDTO input = new CourseDTO(false, 1, "Micro", 40, Level.HIGH);
+		ResponseEntity<CourseDTO> expectedResult = new ResponseEntity<CourseDTO>(new CourseDTO(true, 2, "Servicio", 40, Level.MEDIUM),
 																				 HttpStatus.OK);
 		
 		when(courseService.add(input)).thenReturn(expectedResult);
@@ -49,27 +52,37 @@ public class CourseControllerTest {
 	@Test
 	public void shouldReturnCourses() {
 		List<CourseDTO> listResult = new ArrayList<>();
-		listResult.add(new CourseDTO(true, 1, "Micro", 40, 1));
-		listResult.add(new CourseDTO(true, 2, "Eclipse", 20, 2));
+		listResult.add(new CourseDTO(true, 1, "Micro", 40, Level.BASIC));
+		listResult.add(new CourseDTO(true, 2, "Eclipse", 20, Level.MEDIUM));
 		ResponseEntity<Page<CourseDTO>> pagedTasks = new ResponseEntity<Page<CourseDTO>>(new PageImpl<CourseDTO>(listResult),
 																						 HttpStatus.OK);
-		
-		
-		when(courseService.findAll(0, 5, true)).thenReturn(pagedTasks);
-		ResponseEntity<Page<CourseDTO>> result = courseController.findAll(0, 5, true);
-		
-		assertTrue(result.getBody().getContent().containsAll(listResult));
+
+		try {
+			when(courseService.findAll(0, 5, true)).thenReturn(pagedTasks);
+
+			ResponseEntity<Page<CourseDTO>> result = courseController.findAll(0, 5, true);
+			
+			assertTrue(result.getBody().getContent().containsAll(listResult));
+			
+		} catch (NoContentException e) {
+			fail("Exception");
+		}			
 	}
 	
 	
 	@Test
 	public void shouldReturnNoCourses() {
-		when(courseService.findAll(null, null, true)).thenReturn(new ResponseEntity<Page<CourseDTO>>(new PageImpl<CourseDTO>(new ArrayList<CourseDTO>()),
-																									 HttpStatus.NO_CONTENT));
-		ResponseEntity<Page<CourseDTO>> result = courseController.findAll(null, null, true);
-		
-		assertEquals(result.getStatusCode(), HttpStatus.NO_CONTENT);
-		assertTrue(result.getBody().getContent().size() == 0);
+		try {
+			when(courseService.findAll(null, null, true)).thenReturn(new ResponseEntity<Page<CourseDTO>>(new PageImpl<CourseDTO>(new ArrayList<CourseDTO>()),
+																										 HttpStatus.NO_CONTENT));
+			ResponseEntity<Page<CourseDTO>> result = courseController.findAll(null, null, true);
+			
+			assertEquals(result.getStatusCode(), HttpStatus.NO_CONTENT);
+			assertTrue(result.getBody().getContent().size() == 0);
+			
+		} catch (NoContentException e) {
+			fail("Exception");
+		}			
 	}
 }
 

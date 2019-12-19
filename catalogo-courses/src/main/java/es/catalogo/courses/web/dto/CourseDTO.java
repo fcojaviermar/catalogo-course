@@ -2,11 +2,11 @@ package es.catalogo.courses.web.dto;
 
 import java.io.Serializable;
 
-import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 
 import es.catalogo.courses.entity.Course;
+import es.catalogo.courses.enums.Level;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -22,7 +22,7 @@ public class CourseDTO implements Serializable {
 	private boolean active;
 	
 	@Min(value = 1)
-	private int idTeacher;
+	private int teacher;
 	
 	@NotEmpty
 	private String title;
@@ -30,19 +30,17 @@ public class CourseDTO implements Serializable {
 	@Min(value = 1)
 	private int hours;
 	
-	@Min(value = 1)
-	@Max(value = 3)
-	private int level;
+	private Level level;
 
 	
 	public CourseDTO() {
 	}
 	
 	
-	public CourseDTO(boolean active, int idTeacher, String title, int hours, int level) {
+	public CourseDTO(boolean active, int teacher, String title, int hours, Level level) {
 		super();
 		this.active = active;
-		this.idTeacher = idTeacher;
+		this.teacher = teacher;
 		this.title = title;
 		this.hours = hours;
 		this.level = level;
@@ -51,7 +49,7 @@ public class CourseDTO implements Serializable {
 
 	public CourseDTO(Course course) {
 		this.active = course.isActive();
-		this.idTeacher = course.getIdTeacher();
+		this.teacher = course.getTeacher();
 		this.title = course.getTitle();
 		this.hours = course.getHours();
 		this.level = course.getLevel();

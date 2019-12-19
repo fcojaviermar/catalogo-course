@@ -11,7 +11,7 @@
 	<groupId>es.catalog</groupId>
 	<artifactId>catalog-course</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>catalog-courses</name>
+	<name>catalogo-courses</name>
 	<description>Catalogue of courses</description>
 
 	<properties>

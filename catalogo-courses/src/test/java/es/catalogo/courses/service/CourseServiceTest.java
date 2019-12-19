@@ -1,6 +1,7 @@
 package es.catalogo.courses.service;
 
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
@@ -18,6 +19,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 
 import es.catalogo.courses.entity.Course;
+import es.catalogo.courses.enums.Level;
+import es.catalogo.courses.exception.NoContentException;
 import es.catalogo.courses.repository.CourseRepository;
 import es.catalogo.courses.service.impl.CourseServiceImpl;
 import es.catalogo.courses.web.dto.CourseDTO;
@@ -42,10 +45,10 @@ public class CourseServiceTest {
 	
 	@Test
 	public void shouldCreateCourse() {
-		CourseDTO inputCourse = new CourseDTO(false, 5, "Micro", 20, 3);
+		CourseDTO inputCourse = new CourseDTO(false, 5, "Micro", 20, Level.HIGH);
 		
-		Course saveResult = new Course(2, true, 5, "Eclipse", 45, 3);
-		CourseDTO expectedResult = new CourseDTO(true, 5, "Eclipse", 45, 3);
+		Course saveResult = new Course(2, true, 5, "Eclipse", 45, Level.HIGH);
+		CourseDTO expectedResult = new CourseDTO(true, 5, "Eclipse", 45, Level.HIGH);
 
 		when(courseRepository.save(new Course(inputCourse))).thenReturn(saveResult);
 		ResponseEntity<CourseDTO> result = courseService.add(inputCourse);
@@ -57,40 +60,49 @@ public class CourseServiceTest {
 	@Test
 	public void shouldFindCourses() {
 		List<Course> listReturn = new ArrayList<>();
-		listReturn.add(new Course(1, true, 1, "Micro", 40, 1));
-		listReturn.add(new Course(2, true, 2, "Eclipse", 20, 2));
+		listReturn.add(new Course(1, true, 1, "Micro", 40, Level.BASIC));
+		listReturn.add(new Course(2, true, 2, "Eclipse", 20, Level.MEDIUM));
 		Page<Course> pagedReturn = new PageImpl<Course>(listReturn);
 		
 		List<CourseDTO> listResult = new ArrayList<>();
-		listResult.add(new CourseDTO(true, 1, "Micro", 40, 1));
-		listResult.add(new CourseDTO(true, 2, "Eclipse", 20, 2));
+		listResult.add(new CourseDTO(true, 1, "Micro", 40, Level.BASIC));
+		listResult.add(new CourseDTO(true, 2, "Eclipse", 20, Level.MEDIUM));
 
 		
 		Pageable firstPageWithTwoElements = PageRequest.of(0, 5);		
 		when(courseRepository.findAllByActive(firstPageWithTwoElements, true)).thenReturn(pagedReturn);
-		
-		ResponseEntity<Page<CourseDTO>> result = courseService.findAll(0, 5, true);
-		
-		assertTrue(result.getBody().getContent().containsAll(listResult));
+		try {		
+			ResponseEntity<Page<CourseDTO>> result = courseService.findAll(0, 5, true);
+			
+			assertTrue(result.getBody().getContent().containsAll(listResult));
+			
+		} catch (NoContentException e) {
+			fail("Exception");
+		}			
+
 	}
 	
 	@Test
 	public void shouldFindCourses2() {
 		List<Course> listReturn = new ArrayList<>();
-		listReturn.add(new Course(1, true, 1, "Micro", 40, 1));
-		listReturn.add(new Course(2, true, 2, "Eclipse", 20, 2));
+		listReturn.add(new Course(1, true, 1, "Micro", 40, Level.BASIC));
+		listReturn.add(new Course(2, true, 2, "Eclipse", 20, Level.MEDIUM));
 		Page<Course> pagedReturn = new PageImpl<Course>(listReturn);
 		
 		List<CourseDTO> listResult = new ArrayList<>();
-		listResult.add(new CourseDTO(true, 1, "Micro", 40, 1));
-		listResult.add(new CourseDTO(true, 2, "Eclipse", 20, 2));
+		listResult.add(new CourseDTO(true, 1, "Micro", 40, Level.BASIC));
+		listResult.add(new CourseDTO(true, 2, "Eclipse", 20, Level.MEDIUM));
 
-		
 		Pageable firstPageWithTwoElements = PageRequest.of(0, 5);		
 		when(courseRepository.findAllByActive(firstPageWithTwoElements, true)).thenReturn(pagedReturn);
-		ResponseEntity<Page<CourseDTO>> result = courseService.findAll(0, 5, true);
 		
-		
-		assertTrue(result.getBody().getContent().containsAll(listResult));
+		try {
+			ResponseEntity<Page<CourseDTO>> result = courseService.findAll(0, 5, true);
+			
+			assertTrue(result.getBody().getContent().containsAll(listResult));
+			
+		} catch (NoContentException e) {
+			fail("Exception");
+		}			
 	}
 }

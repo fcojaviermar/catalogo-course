@@ -1,5 +1,6 @@
 package es.catalogo.courses.web;
 
+import javax.validation.Valid;
 import javax.ws.rs.QueryParam;
 
 import org.springframework.data.domain.Page;
@@ -24,7 +25,7 @@ public class CourseController {
 
 	//courses -> sustantivo, plural 
 	@RequestMapping(value = "/courses", method = RequestMethod.POST)
-	public ResponseEntity<CourseDTO> add(@RequestBody CourseDTO course) {
+	public ResponseEntity<CourseDTO> add(@Valid @RequestBody CourseDTO course) {
 		return courseService.add(course);
 	}
 

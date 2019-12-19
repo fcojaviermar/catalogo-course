@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import es.catalogo.courses.CatalogueCoursesApplication;
+import es.catalogo.courses.enums.Level;
 import es.catalogo.courses.web.dto.CourseDTO;
 
 @RunWith(SpringRunner.class)
@@ -22,7 +23,7 @@ public class CreateCourseIT {
 	
 	@Test
 	public void createCourse() {
-		CourseDTO input = new CourseDTO(false, 1, "Micro", 40, 3);
+		CourseDTO input = new CourseDTO(false, 1, "Micro", 40, Level.HIGH);
 		
 		ResponseEntity<CourseDTO> result = courseController.add(input);
 		
