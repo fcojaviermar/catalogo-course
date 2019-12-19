@@ -8,7 +8,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -16,6 +15,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import es.catalogo.courses.CatalogueCoursesApplication;
 import es.catalogo.courses.exception.NoContentException;
 import es.catalogo.courses.web.dto.CourseDTO;
+import es.catalogo.teachers.web.dto.PageImplResponse;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest (classes = CatalogueCoursesApplication.class)
@@ -27,7 +27,7 @@ public class FindCoursesIT {
 	@Test
 	@Sql("/courses.sql")
 	public void shouldFindAll() {
-		ResponseEntity<Page<CourseDTO>> result = null;
+		ResponseEntity<PageImplResponse<CourseDTO>> result = null;
 		try {
 			result = courseController.findAll(0, 5, true);
 			assertEquals(result.getBody().getContent().size(), 5);
@@ -44,7 +44,7 @@ public class FindCoursesIT {
 	@Sql("/courses.sql")
 	public void shouldFindFirstPageThreeCourses() {
 		try {
-			ResponseEntity<Page<CourseDTO>> result = courseController.findAll(0, null, true);
+			ResponseEntity<PageImplResponse<CourseDTO>> result = courseController.findAll(0, null, true);
 			assertEquals(result.getBody().getContent().size(), 3);
 			
 		} catch (NoContentException e) {
@@ -57,7 +57,7 @@ public class FindCoursesIT {
 	@Sql("/courses.sql")
 	public void shouldFindTwoPageLastPageTwoCourses() {
 		try {
-			ResponseEntity<Page<CourseDTO>> result = courseController.findAll(0, null, true);
+			ResponseEntity<PageImplResponse<CourseDTO>> result = courseController.findAll(0, null, true);
 			result = courseController.findAll(result.getBody().getPageable().next().getPageNumber(), 
 											  null, true);
 			assertEquals(result.getBody().getContent().size(), 3);//3 is the defect value.
@@ -85,7 +85,7 @@ public class FindCoursesIT {
 	@Sql("/courses.sql")
 	public void shouldFindThreeElements1() {
 		try {
-			ResponseEntity<Page<CourseDTO>> result = courseController.findAll(null, null, true);
+			ResponseEntity<PageImplResponse<CourseDTO>> result = courseController.findAll(null, null, true);
 			assertEquals(result.getBody().getContent().size(), 3);
 			
 		} catch (NoContentException e) {
@@ -98,7 +98,7 @@ public class FindCoursesIT {
 	@Sql("/courses.sql")
 	public void shouldFindThreeElements2() {
 		try {
-			ResponseEntity<Page<CourseDTO>> result = courseController.findAll(0, null, true);
+			ResponseEntity<PageImplResponse<CourseDTO>> result = courseController.findAll(0, null, true);
 			assertEquals(result.getBody().getContent().size(), 3);
 			
 		} catch (NoContentException e) {
@@ -111,7 +111,7 @@ public class FindCoursesIT {
 	@Sql("/courses.sql")
 	public void shouldFindThreeElements3() {
 		try {
-			ResponseEntity<Page<CourseDTO>> result = courseController.findAll(null, 1, true);
+			ResponseEntity<PageImplResponse<CourseDTO>> result = courseController.findAll(null, 1, true);
 			assertEquals(result.getBody().getContent().size(), 3);
 			
 		} catch (NoContentException e) {

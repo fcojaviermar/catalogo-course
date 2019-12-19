@@ -5,7 +5,6 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -17,6 +16,7 @@ import es.catalogo.courses.exception.NoContentException;
 import es.catalogo.courses.repository.CourseRepository;
 import es.catalogo.courses.service.CourseService;
 import es.catalogo.courses.web.dto.CourseDTO;
+import es.catalogo.teachers.web.dto.PageImplResponse;
 
 
 
@@ -45,7 +45,7 @@ public class CourseServiceImpl implements CourseService {
 
 	
 	
-	public ResponseEntity<Page<CourseDTO>> findAll(Integer page, Integer size, Boolean active) throws NoContentException {
+	public ResponseEntity<PageImplResponse<CourseDTO>> findAll(Integer page, Integer size, Boolean active) throws NoContentException {
 		List<CourseDTO> result = null;
 		Page<Course> listCourses = null;
 		
@@ -63,7 +63,7 @@ public class CourseServiceImpl implements CourseService {
 		
 		} else {
 			result = listCourses.stream().map(course -> new CourseDTO(course)).collect(Collectors.toList());
-			return new ResponseEntity<Page<CourseDTO>>(new PageImpl<CourseDTO>(result, listCourses.getPageable(), 
+			return new ResponseEntity<PageImplResponse<CourseDTO>>(new PageImplResponse<CourseDTO>(result, listCourses.getPageable(), 
 																			   listCourses.getTotalElements()),
 													   HttpStatus.OK);
 		}

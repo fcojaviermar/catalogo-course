@@ -24,6 +24,7 @@ import es.catalogo.courses.exception.NoContentException;
 import es.catalogo.courses.repository.CourseRepository;
 import es.catalogo.courses.service.impl.CourseServiceImpl;
 import es.catalogo.courses.web.dto.CourseDTO;
+import es.catalogo.teachers.web.dto.PageImplResponse;
 
 
 @RunWith(MockitoJUnitRunner.class)
@@ -72,7 +73,7 @@ public class CourseServiceTest {
 		Pageable firstPageWithTwoElements = PageRequest.of(0, 5);		
 		when(courseRepository.findAllByActive(firstPageWithTwoElements, true)).thenReturn(pagedReturn);
 		try {		
-			ResponseEntity<Page<CourseDTO>> result = courseService.findAll(0, 5, true);
+			ResponseEntity<PageImplResponse<CourseDTO>> result = courseService.findAll(0, 5, true);
 			
 			assertTrue(result.getBody().getContent().containsAll(listResult));
 			
@@ -97,7 +98,7 @@ public class CourseServiceTest {
 		when(courseRepository.findAllByActive(firstPageWithTwoElements, true)).thenReturn(pagedReturn);
 		
 		try {
-			ResponseEntity<Page<CourseDTO>> result = courseService.findAll(0, 5, true);
+			ResponseEntity<PageImplResponse<CourseDTO>> result = courseService.findAll(0, 5, true);
 			
 			assertTrue(result.getBody().getContent().containsAll(listResult));
 			
