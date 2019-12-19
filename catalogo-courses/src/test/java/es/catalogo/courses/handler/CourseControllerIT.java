@@ -1,4 +1,4 @@
-package es.catalogo.courses.web;
+package es.catalogo.courses.handler;
 
 import static org.assertj.core.api.Assertions.fail;
 import static org.junit.Assert.assertTrue;
@@ -23,12 +23,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import es.catalogo.courses.CatalogueCoursesApplication;
 import es.catalogo.courses.enums.Level;
 import es.catalogo.courses.handler.CustomizedCatalogoExceptionHandler;
+import es.catalogo.courses.web.CourseController;
 import es.catalogo.courses.web.dto.CourseDTO;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest (classes = CatalogueCoursesApplication.class)
 @AutoConfigureMockMvc
-public class CourseControllerAcceptanceTest {
+public class CourseControllerIT {
 
 	
 	@Autowired
