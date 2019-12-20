@@ -1,6 +1,8 @@
 package es.catalogo.courses.entity;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 import es.catalogo.courses.enums.Level;
@@ -16,6 +18,7 @@ import lombok.Setter;
 public class Course {
 	
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 	private boolean active;
 	
