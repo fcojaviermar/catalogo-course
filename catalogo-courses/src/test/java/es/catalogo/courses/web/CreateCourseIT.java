@@ -3,6 +3,7 @@ package es.catalogo.courses.web;
 import static org.junit.Assert.assertNotNull;
 
 import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -31,5 +32,11 @@ public class CreateCourseIT {
 		
 		assertNotNull(result.getBody());
 	}
-
+	
+	
+	@AfterAll
+	@Sql("/delete.sql")
+	public void afterAll() {
+		
+	}
 }

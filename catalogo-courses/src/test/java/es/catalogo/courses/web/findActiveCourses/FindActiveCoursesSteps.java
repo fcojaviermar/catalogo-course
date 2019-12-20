@@ -5,9 +5,10 @@ import static org.junit.Assert.assertTrue;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.stream.IntStream;
 
+import org.junit.jupiter.api.AfterAll;
 import org.junit.runner.RunWith;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.web.server.LocalServerPort;
@@ -15,6 +16,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestTemplate;
 
@@ -28,8 +30,9 @@ import es.catalogo.teachers.web.dto.PageImplResponse;
 
 
 @RunWith(SpringRunner.class)
-@ContextConfiguration(classes = CatalogueCoursesApplication.class)
 @SpringBootTest(webEnvironment=WebEnvironment.RANDOM_PORT)
+@ContextConfiguration(classes = CatalogueCoursesApplication.class)
+@AutoConfigureMockMvc
 public class FindActiveCoursesSteps {
 
 	private PageImplResponse<?> page = null;
@@ -40,7 +43,7 @@ public class FindActiveCoursesSteps {
 	
 	
     @Given("^un catalogo de cursos disponibles en el sistema$")
-    public void a_transaction_that_is_stored_in_our_system() {
+    public void a_catalogue_with_available_courses() {
     	CourseDTO courseDTO = null;
     	
     	RestTemplate restTemplate = new RestTemplate();
@@ -56,10 +59,12 @@ public class FindActiveCoursesSteps {
         headers.setContentType(MediaType.APPLICATION_JSON);
         
         
-//        System.out.println(IntStream.range(1, 5)  
-//        .filter(i -> i % 2 == 0)
-//        .allMatch(i -> i % 2 == 0));
-
+//        System.out.println(IntStream.range(1, 5)  //Para todos los números de 1 a 5, sin incluir el 5.
+//        							.filter(i -> i % 2 == 0) //Filtro todos los números pares y obtengo un IntStream de números pares
+//        							.allMatch(i -> i % 2 == 0)); //Compruebo que todos los números del nuevo IntStream son pares devolviendo true o false si no es correcto.
+//
+//        System.out.println(IntStream.range(1, 5).reduce(3, (x, y) -> x * y));
+        
         for (int i=0; i<15;i++) {
         	if (i%2==0) {
         		courseDTO = new CourseDTO(true, i+1, "Title " + i, 30+i, Level.BASIC);
@@ -75,7 +80,7 @@ public class FindActiveCoursesSteps {
 
     
 	@When("^accedo a los cursos activos$")
-	public void i_check_the_status_from_internal_channel() throws Throwable{
+	public void i_search_active_courses() throws Throwable{
 		
 		RestTemplate restTemplate = new RestTemplate();
 	     
@@ -89,8 +94,13 @@ public class FindActiveCoursesSteps {
 
 	
 	@Then("^el sistema devuelve la lista de cursos activos$")
-	public void the_system_returns_the_status_SETTLED() throws Throwable {
+	public void the_system_returns_active_courses() throws Throwable {
 		assertTrue(String.valueOf(page.getContent().size()), page.getContent().size() == 8);
 	}
 
+	
+	@AfterAll
+	@Sql("/delete.sql")
+	public void afterAll() {
+	}
 }

@@ -1,4 +1,4 @@
-package es.catalogo.courses.handler;
+package es.catalogo.courses.parent;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -11,6 +11,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import es.catalogo.courses.handler.CustomizedCatalogoExceptionHandler;
 import es.catalogo.courses.web.CourseController;
 
 
