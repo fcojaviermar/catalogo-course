@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.fail;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -41,6 +40,7 @@ public class CourseControllerIT extends ParentStep {
 	
 	
 	@Test
+	@Sql("/delete.sql")
 	public void noCourses() {
 		try {
 			MvcResult result = getCall("/courses?page=0&size=1&active=true");
@@ -67,8 +67,4 @@ public class CourseControllerIT extends ParentStep {
 //	}
 	
 	
-	@AfterAll
-	@Sql("/delete.sql")
-	public void afterAll() {
-	}
 }

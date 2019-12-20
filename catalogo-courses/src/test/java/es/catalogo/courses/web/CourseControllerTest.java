@@ -50,11 +50,12 @@ public class CourseControllerTest {
 	
 	@Test
 	public void shouldReturnCourses() {
+		ResponseEntity<PageImplResponse<CourseDTO>> pagedTasks = null;
 		List<CourseDTO> listResult = new ArrayList<>();
 		listResult.add(new CourseDTO(true, 1, "Micro", 40, Level.BASIC));
 		listResult.add(new CourseDTO(true, 2, "Eclipse", 20, Level.MEDIUM));
-		ResponseEntity<PageImplResponse<CourseDTO>> pagedTasks = new ResponseEntity<PageImplResponse<CourseDTO>>(new PageImplResponse<CourseDTO>(listResult),
-																						 HttpStatus.OK);
+		pagedTasks = new ResponseEntity<PageImplResponse<CourseDTO>>(new PageImplResponse<CourseDTO>(listResult),
+																	 HttpStatus.OK);
 
 		try {
 			when(courseService.findAll(0, 5, true)).thenReturn(pagedTasks);
