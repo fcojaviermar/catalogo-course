@@ -43,13 +43,13 @@ public class AddCourseSteps {
 	
 	
     @Given("^un curso que no esta en el sistema$")
-    public void curso_no_en_sistema() {
+    public void cursoNoEnSistema() {
     	courseDTO = new CourseDTO(true, 1, "Title", 40, Level.BASIC);
     }
     
 	
     @When("^anado el curso al sistema$")
-	public void anado_el_curso() throws Throwable{
+	public void anadoElCurso() throws Throwable{
 				
 		RestTemplate restTemplate = new RestTemplate();
 	     
@@ -71,7 +71,7 @@ public class AddCourseSteps {
 
 	
 	@Then("^el curso se anade correctamente$")
-	public void curso_anadido() throws Throwable {
+	public void cursoAnadido() throws Throwable {
 		assertTrue(String.valueOf(responseEntity.getStatusCodeValue()), responseEntity.getStatusCodeValue() == HttpStatus.OK.value());	
 	}
 

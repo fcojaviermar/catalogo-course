@@ -1,4 +1,4 @@
-package es.catalogo.courses.web.findActiveCourses;
+package es.catalogo.courses.web.findactivecourses;
 
 import org.junit.runner.RunWith;
 

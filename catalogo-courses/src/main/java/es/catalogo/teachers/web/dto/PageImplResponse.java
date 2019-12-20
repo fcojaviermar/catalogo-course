@@ -23,8 +23,8 @@ public class PageImplResponse<T> extends PageImpl<T> {
         super(content, PageRequest.of(number, size), totalElements);
     }
 	
-	public PageImplResponse(List<T> content, Pageable pageable, long total) {
-		super(content, pageable, total);
+	public PageImplResponse(List<T> content, Pageable pageable, Long totalElements) {
+		super(content, pageable, totalElements);
 	}
 
 	public PageImplResponse(List<T> content) {

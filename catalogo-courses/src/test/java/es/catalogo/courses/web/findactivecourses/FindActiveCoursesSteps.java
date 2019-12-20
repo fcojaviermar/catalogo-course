@@ -1,4 +1,4 @@
-package es.catalogo.courses.web.findActiveCourses;
+package es.catalogo.courses.web.findactivecourses;
 
 
 import static org.junit.Assert.assertTrue;
@@ -43,7 +43,7 @@ public class FindActiveCoursesSteps {
 	
 	
     @Given("^un catalogo de cursos disponibles en el sistema$")
-    public void a_catalogue_with_available_courses() {
+    public void aCatalogueWithAvailableCourses() {
     	CourseDTO courseDTO = null;
     	
     	RestTemplate restTemplate = new RestTemplate();
@@ -80,7 +80,7 @@ public class FindActiveCoursesSteps {
 
     
 	@When("^accedo a los cursos activos$")
-	public void i_search_active_courses() throws Throwable{
+	public void iSearchActiveCourses() throws Throwable{
 		
 		RestTemplate restTemplate = new RestTemplate();
 	     
@@ -94,7 +94,7 @@ public class FindActiveCoursesSteps {
 
 	
 	@Then("^el sistema devuelve la lista de cursos activos$")
-	public void the_system_returns_active_courses() throws Throwable {
+	public void theSystemReturnsActiveCourses() throws Throwable {
 		assertTrue(String.valueOf(page.getContent().size()), page.getContent().size() == 8);
 	}
 
