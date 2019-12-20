@@ -6,7 +6,6 @@ import static org.junit.Assert.assertTrue;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import org.junit.jupiter.api.AfterAll;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
@@ -17,7 +16,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestTemplate;
 
@@ -76,8 +74,4 @@ public class AddCourseSteps {
 	}
 
 	
-	@AfterAll
-	@Sql("/delete.sql")
-	public void afterAll() {
-	}
 }

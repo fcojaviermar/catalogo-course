@@ -18,10 +18,10 @@ import es.catalogo.teachers.web.dto.TeacherDTO;
 public class TeacherControllerTest {
 
 	@InjectMocks
-	TeacherController teacherControler;
+	private TeacherController teacherControler;
 	
 	@Mock
-	TeacherService teacherService;
+	private TeacherService teacherService;
 	
 	@Test
 	public void shouldCreateTeacher() {
