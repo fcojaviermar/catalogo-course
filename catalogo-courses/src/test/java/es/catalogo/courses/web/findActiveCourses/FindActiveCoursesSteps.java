@@ -5,10 +5,9 @@ import static org.junit.Assert.assertTrue;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.sql.Connection;
+import java.util.stream.IntStream;
 
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.web.server.LocalServerPort;
@@ -55,6 +54,11 @@ public class FindActiveCoursesSteps {
 
 	    HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
+        
+        
+//        System.out.println(IntStream.range(1, 5)  
+//        .filter(i -> i % 2 == 0)
+//        .allMatch(i -> i % 2 == 0));
 
         for (int i=0; i<15;i++) {
         	if (i%2==0) {
@@ -65,6 +69,8 @@ public class FindActiveCoursesSteps {
 	        HttpEntity<CourseDTO> requestEntity = new HttpEntity<CourseDTO>(courseDTO, headers);
 	        restTemplate.postForEntity(uri, requestEntity, CourseDTO.class);
         }
+        
+        
     }
 
     

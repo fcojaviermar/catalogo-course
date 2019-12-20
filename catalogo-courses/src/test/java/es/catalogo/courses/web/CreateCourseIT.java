@@ -7,6 +7,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import es.catalogo.courses.CatalogueCoursesApplication;
@@ -22,6 +23,7 @@ public class CreateCourseIT {
 	
 	
 	@Test
+	@Sql("/delete.sql")
 	public void createCourse() {
 		CourseDTO input = new CourseDTO(false, 1, "Micro", 40, Level.HIGH);
 		
