@@ -77,7 +77,7 @@ public class CourseControllerTest {
 																										 HttpStatus.NO_CONTENT));
 			ResponseEntity<PageImplResponse<CourseDTO>> result = courseController.findAll(null, null, true);
 			
-			assertEquals(result.getStatusCode(), HttpStatus.NO_CONTENT);
+			assertEquals(HttpStatus.NO_CONTENT, result.getStatusCode());
 			assertTrue(result.getBody().getContent().size() == 0);
 			
 		} catch (NoContentException e) {

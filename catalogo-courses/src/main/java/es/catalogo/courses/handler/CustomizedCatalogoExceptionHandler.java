@@ -17,7 +17,7 @@ import es.catalogo.courses.exception.NoContentException;
 @ControllerAdvice
 public class CustomizedCatalogoExceptionHandler extends ResponseEntityExceptionHandler {
 
-	
+	@Override
 	protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
 			  													  HttpHeaders headers, HttpStatus status, 
 			  													  WebRequest request) {
@@ -31,13 +31,13 @@ public class CustomizedCatalogoExceptionHandler extends ResponseEntityExceptionH
 			errorMessage = fieldError.getDefaultMessage();
 		}
 		
-		return new ResponseEntity<Object>(errorMessage, HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
 	}
 	
 	
 	@ExceptionHandler(NoContentException.class)
-    public ResponseEntity<?> handleException(NoContentException e){
-		return new ResponseEntity<String>(e.getMessage(), HttpStatus.NO_CONTENT);
+    public ResponseEntity<String> handleException(NoContentException e){
+		return new ResponseEntity<>(e.getMessage(), HttpStatus.NO_CONTENT);
     }
 
 }

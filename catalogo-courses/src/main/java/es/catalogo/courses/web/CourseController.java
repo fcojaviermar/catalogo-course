@@ -4,9 +4,9 @@ import javax.validation.Valid;
 import javax.ws.rs.QueryParam;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import es.catalogo.courses.service.CourseService;
@@ -24,13 +24,13 @@ public class CourseController {
 	}
 
 	//courses -> sustantivo, plural 
-	@RequestMapping(value = "/courses", method = RequestMethod.POST)
+	@PostMapping(value = "/courses")
 	public ResponseEntity<CourseDTO> add(@Valid @RequestBody CourseDTO course) {
 		return courseService.add(course);
 	}
 
 
-	@RequestMapping(value = "/courses", method=RequestMethod.GET)
+	@GetMapping(value = "/courses")
 	public ResponseEntity<PageImplResponse<CourseDTO>> findAll(@QueryParam("page")Integer page, @QueryParam("size")Integer size, 
 								   @QueryParam("active") Boolean active) {
 		return courseService.findAll(page, size, active);

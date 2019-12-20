@@ -26,7 +26,7 @@ public class TeacherServiceImpl implements TeacherService {
 		Teacher teacher = new Teacher(teacherDTO);
 
 		teacher = teacherRepository.save(teacher);
-		return new ResponseEntity<TeacherDTO>(new TeacherDTO(teacher), HttpStatus.OK);
+		return new ResponseEntity<>(new TeacherDTO(teacher), HttpStatus.OK);
 	}
 
 }

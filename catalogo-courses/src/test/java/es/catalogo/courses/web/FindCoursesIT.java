@@ -30,7 +30,7 @@ public class FindCoursesIT {
 		ResponseEntity<PageImplResponse<CourseDTO>> result = null;
 		try {
 			result = courseController.findAll(0, 5, true);
-			assertEquals(result.getBody().getContent().size(), 5);
+			assertEquals(5, result.getBody().getContent().size());
 			
 		} catch (NoContentException e) {
 			fail("Exception");
@@ -45,7 +45,7 @@ public class FindCoursesIT {
 	public void shouldFindFirstPageThreeCourses() {
 		try {
 			ResponseEntity<PageImplResponse<CourseDTO>> result = courseController.findAll(0, null, true);
-			assertEquals(result.getBody().getContent().size(), 3);
+			assertEquals(3, result.getBody().getContent().size());
 			
 		} catch (NoContentException e) {
 			fail("Exception");
@@ -60,7 +60,7 @@ public class FindCoursesIT {
 			ResponseEntity<PageImplResponse<CourseDTO>> result = courseController.findAll(0, null, true);
 			result = courseController.findAll(result.getBody().getPageable().next().getPageNumber(), 
 											  null, true);
-			assertEquals(result.getBody().getContent().size(), 3);//3 is the defect value.
+			assertEquals(3, result.getBody().getContent().size());//3 is the defect value.
 			
 		} catch (NoContentException e) {
 			fail("Exception");
@@ -86,7 +86,7 @@ public class FindCoursesIT {
 	public void shouldFindThreeElements1() {
 		try {
 			ResponseEntity<PageImplResponse<CourseDTO>> result = courseController.findAll(null, null, true);
-			assertEquals(result.getBody().getContent().size(), 3);
+			assertEquals(3, result.getBody().getContent().size());
 			
 		} catch (NoContentException e) {
 			fail("Exception");
@@ -99,7 +99,7 @@ public class FindCoursesIT {
 	public void shouldFindThreeElements2() {
 		try {
 			ResponseEntity<PageImplResponse<CourseDTO>> result = courseController.findAll(0, null, true);
-			assertEquals(result.getBody().getContent().size(), 3);
+			assertEquals(3, result.getBody().getContent().size());
 			
 		} catch (NoContentException e) {
 			fail("Exception");
@@ -112,7 +112,7 @@ public class FindCoursesIT {
 	public void shouldFindThreeElements3() {
 		try {
 			ResponseEntity<PageImplResponse<CourseDTO>> result = courseController.findAll(null, 1, true);
-			assertEquals(result.getBody().getContent().size(), 3);
+			assertEquals(3, result.getBody().getContent().size());
 			
 		} catch (NoContentException e) {
 			fail("Exception");

@@ -40,12 +40,12 @@ public class CourseServiceImpl implements CourseService {
 
 	public ResponseEntity<CourseDTO> add(CourseDTO courseDto) {
 		Course course = courseRepository.save(new Course(courseDto));
-		return new ResponseEntity<CourseDTO>(new CourseDTO(course), HttpStatus.OK);
+		return new ResponseEntity<>(new CourseDTO(course), HttpStatus.OK);
 	}
 
 	
 	
-	public ResponseEntity<PageImplResponse<CourseDTO>> findAll(Integer page, Integer size, Boolean active) throws NoContentException {
+	public ResponseEntity<PageImplResponse<CourseDTO>> findAll(Integer page, Integer size, Boolean active) {
 		List<CourseDTO> result = null;
 		Page<Course> listCourses = null;
 		
@@ -62,10 +62,11 @@ public class CourseServiceImpl implements CourseService {
 			throw new NoContentException("There is no courses.");
 		
 		} else {
-			result = listCourses.stream().map(course -> new CourseDTO(course)).collect(Collectors.toList());
-			return new ResponseEntity<PageImplResponse<CourseDTO>>(new PageImplResponse<CourseDTO>(result, listCourses.getPageable(), 
-																			   listCourses.getTotalElements()),
-													   HttpStatus.OK);
+			result = listCourses.stream().map(CourseDTO::new).collect(Collectors.toList());
+//			result = listCourses.stream().map(course -> new CourseDTO(course)).collect(Collectors.toList());
+			return new ResponseEntity<>(new PageImplResponse<CourseDTO>(result, listCourses.getPageable(), 
+																		listCourses.getTotalElements()),
+										HttpStatus.OK);
 		}
 	}
 	
